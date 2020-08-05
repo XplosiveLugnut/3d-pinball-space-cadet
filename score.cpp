@@ -93,7 +93,7 @@ return v1;
 
 
 //----- (01013BB3) --------------------------------------------------------
-DWORD *score_create(LPCSTR lpString, int a2)
+DWORD *score_create(const char * lpString, int a2)
 {
 DWORD *v2; // esi
 int *v3; // eax
@@ -271,7 +271,7 @@ score_msg_fontp = 0;
 // 10253C4: using guessed type struct score_msg_font_type *score_msg_fontp;
 
 //----- (01013E73) --------------------------------------------------------
-HRSRC score_load_msg_font(LPCSTR lpName)
+HRSRC score_load_msg_font(const char * lpName)
 {
 HRSRC result; // eax
 HRSRC v2; // esi
@@ -296,9 +296,9 @@ signed int v20; // [esp+10h] [ebp-10h]
 char *v21; // [esp+14h] [ebp-Ch]
 int v22; // [esp+18h] [ebp-8h]
 int v23; // [esp+1Ch] [ebp-4h]
-LPCSTR lpNamea; // [esp+28h] [ebp+8h]
+const char * lpNamea; // [esp+28h] [ebp+8h]
 
-result = FindResourceA(hinst, lpName, (LPCSTR)0xA);
+result = FindResourceA(hinst, lpName, (const char *)0xA);
 if ( !result )
 return result;
 result = (HRSRC)LoadResource(hinst, result);
@@ -334,7 +334,7 @@ return (HRSRC)FreeResource(hResData);
 v23 = 0;
 *(DWORD *)score_msg_fontp = *v3;
 *((DWORD *)score_msg_fontp + 1) = v3[2];
-lpNamea = (LPCSTR)8;
+lpNamea = (const char *)8;
 while ( 1 )
 {
 v8 = (char *)v3 + v23 + 6;

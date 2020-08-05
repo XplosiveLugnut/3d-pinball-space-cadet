@@ -2,29 +2,34 @@
 // Created by neo on 2019-08-15.
 //
 
-#include "../../pinball.h"
+#include "pinball.h"
 
 #ifndef PINBALL_TPINBALLTABLE_H
 #define PINBALL_TPINBALLTABLE_H
 
+#define DWORD int
+
+struct TPinballComponent;
+
 /* 117 */
-struct TPinballTable;
+struct TPinballTable {
+TPinballTable();
+~TPinballTable();
 
-void TPinballTable::LightShow_timeout(int, void*); // idb
-void TPinballTable::EndGame_timeout(int, void*); // idb
-int __thiscall TPinballTable::AddScore(TPinballTable* this, int); // idb
+void LightShow_timeout(int, void*); // idb
+void EndGame_timeout(int, void*); // idb
+int AddScore(int); // idb
 // void TPinballTable::ChangeBallCount(TPinballTable *this, int a2, int a3);
-void TPinballTable::replay_timer_callback(int, void*); // idb
-void __thiscall TPinballTable::port_draw(TPinballTable* __hidden this); // idb
-void TPinballTable::tilt_timeout(int, void*); // idb
-// void TPinballTable::tilt(TPinballTable *this, int a2, float a3);
+void replay_timer_callback(int, void*); // idb
+void port_draw(); // idb
+void tilt_timeout(int, void*); // idb
+void tilt(int a2, float a3);
 // int TPinballTable::Message(TPinballTable *this, int a2, int a3, float a4);
-TZmapList* __thiscall TPinballTable::~TPinballTable(TPinballTable* this);
-TPinballTable* __thiscall TPinballTable::destroy(TPinballTable *this, char a2);
-TPinballTable* __thiscall TPinballTable::TPinballTable(TPinballTable* this);
-TPinballComponent* __thiscall TPinballTable::find_component(TPinballTable* this, char*); // idb
-TPinballComponent* __thiscall TPinballTable::find_component(TPinballTable* this, int); // idb
+TPinballTable* destroy(char a2);
+TPinballComponent* find_component(char*); // idb
+TPinballComponent* find_component(int); // idb
 
-void* TPinballTable::vftable = &TPinballTable::Message; // weak
+// void* TPinballTable::vftable = &TPinballTable::Message; // weak
+};
 
 #endif //PINBALL_TPINBALLTABLE_H

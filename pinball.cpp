@@ -2,10 +2,13 @@
 // Created by neo on 2019-08-15.
 //
 
-#include <windows.h>
+// #include <windows.h>
 #include <math.h>
-#include <defs.h>
+// #include <defs.h>
 #include "pinball.h"
+
+#include <cstring>
+#include <cstdio>
 
 //----- (0101461A) --------------------------------------------------------
 signed int pb_mode_change(int a1)
@@ -45,12 +48,12 @@ signed int pb_mode_change(int a1)
 			options_menu_set(0x67u, 1);
 			options_menu_check(0x194u, 0);
 		}
-		if (MainTable && *(DWORD*)((char*)MainTable + 266))
-			(***(void(__thiscall * ***)(DWORD, signed int, DWORD))((char*)MainTable + 266))(
-				*(DWORD*)((char*)MainTable + 266),
-				29,
-				1.4);
-		break;
+// 		if (MainTable && *(DWORD*)((char*)MainTable + 266))
+// 			(***(void(__thiscall * ***)(DWORD, signed int, DWORD))((char*)MainTable + 266))(
+// 				*(DWORD*)((char*)MainTable + 266),
+// 				29,
+// 				1.4);
+// 		break;
 	case 3:
 	case 4:
 		options_menu_set(0x191u, 0);
@@ -171,11 +174,11 @@ int pb_end_game()
 			do
 			{
 				v13 = v16[i];
-				v14 = high_score_get_score_position((int)byte_1025578, v16[i]);
+				v14 = high_score_get_score_position((long)byte_1025578, v16[i]);
 				if (v14 >= 0)
 				{
 					v15 = get_rc_string(LOWORD(v17[i]) + 26, 0);
-					lstrcpyA(&String1, v15);
+					std::strcpy(&String1, v15);
 					show_and_set_high_score_dialog(byte_1025578, v13, v14, &String1);
 				}
 				result = ++i;
@@ -200,7 +203,7 @@ signed int pb_chk_highscore()
 	if (v0 < 0)
 		return 0;
 	v1 = 28 * v0;
-	while (high_score_get_score_position((int)byte_1025578, **(DWORD * *)((char*)MainTable + v1 + 102)) < 0)
+	while (high_score_get_score_position((long)byte_1025578, **(DWORD * *)((char*)MainTable + v1 + 102)) < 0)
 	{
 		--v0;
 		v1 -= 28;
@@ -249,7 +252,7 @@ long double pb_collide(struct TEdgeSegment* a1, float a2, struct TBall* a3)
 		v5 = *(float*)((char*)v3 + 66);
 		*(float*)((char*)v3 + 74) = a2;
 		v6 = v4 * *(float*)((char*)v3 + 66);
-		v27 = (struct TBall*)((char*)v3 + 42);
+		v27 = (vector_type *)(struct TBall*)((char*)v3 + 42);
 		v13 = *(DWORD*)((char*)v3 + 42);
 		*(float*)((char*)v3 + 70) = v6;
 		v7 = *(float*)& a1;
@@ -266,7 +269,7 @@ long double pb_collide(struct TEdgeSegment* a1, float a2, struct TBall* a3)
 		v21 = v7;
 		v22 = v4;
 		v20 = 990057071;
-		v9 = TEdgeManager::FindCollisionDistance(edge_manager, (struct ray_type*) & v13, v3, &a1);
+		v9 = edge_manager->FindCollisionDistance((struct ray_type*) & v13, v3, &a1);
 		*(DWORD*)((char*)v3 + 134) = 0;
 		*(float*)& a3 = v9;
 		if (*(float*)& a3 >= 1000000000.0)
@@ -341,7 +344,7 @@ void pb_timed_frame(float a1, float a2, int a3)
 						v15 = 0.0;
 						v16 = 0.0;
 						v17 = 0.0;
-						TEdgeManager::FieldEffects(edge_manager, (struct TBall*)v6, (struct vector_type*) & v15);
+						edge_manager->FieldEffects((struct TBall*)v6, (struct vector_type*) & v15);
 						v15 = v15 * a2;
 						v16 = v16 * a2;
 						*(float*)(v6 + 54) = *(float*)(v6 + 66) * *(float*)(v6 + 54);
@@ -365,7 +368,8 @@ void pb_timed_frame(float a1, float a2, int a3)
 					v20 = 10;
 					while (v11 > 0.000001 && v20)
 					{
-						v12 = pb_collide((struct TEdgeSegment*)LODWORD(v21), v22, (struct TBall*)v6);
+// 						v12 = pb_collide((struct TEdgeSegment*)LODWORD(v21), v22, (struct TBall*)v6); // TODO What?
+                        v12 = 0;
 						--v20;
 						v22 = v22 - v12;
 						v21 = v12 + v21;
@@ -394,7 +398,7 @@ void pb_timed_frame(float a1, float a2, int a3)
 }
 
 //----- (01014BF9) --------------------------------------------------------
-signed int pb_frame@<eax > (int a1@<ebx > , int a2)
+signed int pb_frame(int a1, int a2)
 {
 	double v2; // st7
 	char* v3; // eax
@@ -428,10 +432,10 @@ signed int pb_frame@<eax > (int a1@<ebx > , int a2)
 			if (nudge_count > 0.5)
 			{
 				v3 = get_rc_string(25, 0);
-				TTextBox::Display(InfoTextBox, a1, v3, 2.0);
+				InfoTextBox->Display(a1, v3, 2.0);
 			}
 			if (nudge_count > 1.0)
-				TPinballTable::tilt(MainTable, a1, time_now);
+				MainTable->tilt(a1, time_now);
 		}
 	}
 	return 1;
@@ -454,12 +458,12 @@ void pb_firsttime_setup()
 // 1024754: using guessed type int render_blit;
 
 //----- (01014D59) --------------------------------------------------------
-struct TPinballTable* pb_tilt_no_more@<eax > (int a1@<ebx > )
+struct TPinballTable* pb_tilt_no_more(int a1)
 {
 	struct TPinballTable* result; // eax
 
 	if (*(DWORD*)((char*)MainTable + 370))
-		TTextBox::Clear(InfoTextBox, a1);
+		InfoTextBox->Clear(a1);
 	result = MainTable;
 	*(DWORD*)((char*)MainTable + 370) = 0;
 	nudge_count = -2.0;
@@ -532,9 +536,9 @@ void nudge(float a1, float a2)
 	}
 	v9 = *(DWORD*)((char*)v2 + 246);
 	v10 = *(DWORD*)((char*)v2 + 242);
-	v11 = (signed __int64)_floor(0.5 - a2);
-	v12 = _floor(a1 + 0.5);
-	render_shift((signed __int64)v12, v11, 0, 0, v10, v9);
+	v11 = (signed long)std::floor(0.5 - a2);
+	v12 = std::floor(a1 + 0.5);
+	render_shift((signed long)v12, v11, 0, 0, v10, v9);
 }
 
 //----- (01014EEE) --------------------------------------------------------
@@ -561,7 +565,7 @@ void nudge_left()
 	nudge(-2.0, 1.0);
 	if (nudge_timer)
 		timer_kill(nudge_timer);
-	nudge_timer = timer_set(0.40000001, 0, (int)un_nudge_left);
+	nudge_timer = timer_set(0.40000001, 0, (long)un_nudge_left);
 	nudged_left = 1;
 }
 // 102563C: using guessed type int nudged_left;
@@ -573,7 +577,7 @@ void nudge_right()
 	nudge(2.0, 1.0);
 	if (nudge_timer)
 		timer_kill(nudge_timer);
-	nudge_timer = timer_set(0.40000001, 0, (int)un_nudge_right);
+	nudge_timer = timer_set(0.40000001, 0, (long)un_nudge_right);
 	nudged_right = 1;
 }
 // 1025640: using guessed type int nudged_right;
@@ -594,7 +598,7 @@ void nudge_up()
 	nudge(0.0, 1.0);
 	if (nudge_timer)
 		timer_kill(nudge_timer);
-	nudge_timer = timer_set(0.40000001, 0, (int)un_nudge_up);
+	nudge_timer = timer_set(0.40000001, 0, (long)un_nudge_up);
 	nudged_up = 1;
 }
 // 1025644: using guessed type int nudged_up;
@@ -668,11 +672,11 @@ void pb_keydown(HKEY a1)
 			if (v3 <= 0)
 			{
 			LABEL_36:
-				v7 = (TBall*)TPinballComponent::operator new(0x16Au);
-				if (v7)
-					v6 = TBall::TBall(v7, MainTable);
-				else
-					v6 = 0;
+// 				v7 = new (TBall*)TPinballComponent::operator new(0x16Au);
+// 				if (v7)
+					v6 = new TBall(MainTable);
+// 				else
+// 					v6 = 0;
 			}
 			else
 			{
@@ -699,12 +703,12 @@ void pb_keydown(HKEY a1)
 		else if (a1 == (HKEY)72)
 		{
 			v1 = get_rc_string(26, 0);
-			lstrcpyA(&String1, v1);
+			std::strcpy(&String1, v1);
 			show_and_set_high_score_dialog(byte_1025578, 1000000000, 1, &String1);
 		}
 		else if (a1 == (HKEY)77)
 		{
-			_sprintf(&Dest, "%ld", memory_use_total);
+			std::sprintf(&Dest, "%ld", memory_use_total);
 			MessageBoxA(hwnd_frame, &Dest, "Mem:", 0x2000u);
 		}
 		else if (a1 == (HKEY)82)
@@ -820,10 +824,10 @@ int pb_init()
 	CHAR Filename; // [esp+180h] [ebp-130h]
 
 	++memory_critical_allocation;
-	lstrcpyA(&String1, byte_102543C);
+	std::strcpy(&String1, byte_102543C);
 	make_path_name(&Filename, &String1, 0x12Cu);
 	v17 = 0.0;
-	pb_record_table = (int)partman_load_records(&Filename);
+	pb_record_table = (long)partman_load_records(&Filename);
 	get_rc_int(158, (int*)& v17);
 	if (v17 != 0.0)
 		score_load_msg_font("pbmsg_ft");
@@ -857,14 +861,14 @@ int pb_init()
 		*(float*)& v9 = v8 * 0.5;
 		*(float*)& v10 = 0.5 * (double)SLODWORD(v17);
 		*(float*)& v11 = v7;
-		proj_init((int)& v15, v11, v10, v9);
+		proj_init((long)& v15, v11, v10, v9);
 		v12 = v4 + 1;
 		v16 = *(float*)v12;
 		v17 = *((float*)v12 + 1);
 	}
 	render_init(0, v16, v17, *v2, v2[1]);
 	gdrv_copy_bitmap(&vscreen, v3[3], v3[4], *(DWORD*)((char*)v3 + 29), *(DWORD*)((char*)v3 + 33), v3, 0, 0);
-	gdrv_destroy_bitmap((int)v3);
+	gdrv_destroy_bitmap((long)v3);
 	loader_loadfrom((WORD*)pb_record_table);
 	if (play_midi_music)
 		pb_mode_change(1);
@@ -873,12 +877,12 @@ int pb_init()
 	time_ticks = 0;
 	timer_init(150);
 	score_init();
-	v13 = (TPinballTable*)TPinballComponent::operator new(0x176u);
-	if (v13)
-		MainTable = TPinballTable::TPinballTable(v13);
-	else
-		MainTable = 0;
-	high_score_read((int)byte_1025578, (int)& pb_state);
+// 	v13 = (TPinballTable*)TPinballComponent::operator new(0x176u);
+// 	if (v13)
+		MainTable = new TPinballTable;
+// 	else
+// 		MainTable = 0;
+	high_score_read((long)byte_1025578, (long)& pb_state);
 	v14 = *(float*)(*(DWORD*)(*(DWORD*)((char*)MainTable + 262) + 8) + 154);
 	--memory_critical_allocation;
 	result = 0;
@@ -896,7 +900,7 @@ int pb_uninit()
 	score_unload_msg_font();
 	loader_unload();
 	partman_unload_records((WORD*)pb_record_table);
-	high_score_write(byte_1025578, (int)& pb_state);
+	high_score_write(byte_1025578, (long)& pb_state);
 	if (MainTable)
 		(*(void(* *)(signed int))(*(DWORD*)MainTable + 16))(1);
 	MainTable = 0;
@@ -918,21 +922,21 @@ int pb_loose_focus()
 // 1025630: using guessed type float time_now;
 
 //----- (010156E4) --------------------------------------------------------
-void pb_pause_continue(int a1@<ebx > )
+void pb_pause_continue(int a1)
 {
 	char* v1; // eax
 	char* v2; // eax
 	float v3; // [esp+8h] [ebp-8h]
 
 	single_step = single_step == 0;
-	TTextBox::Clear(InfoTextBox, a1);
-	TTextBox::Clear(MissTextBox, a1);
+	InfoTextBox->Clear(a1);
+	MissTextBox->Clear(a1);
 	if (single_step)
 	{
 		if (MainTable)
 			(**(void(* **)(signed int, DWORD))MainTable)(1008, LODWORD(time_now));
 		v1 = get_rc_string(22, 0);
-		TTextBox::Display(InfoTextBox, a1, v1, -1.0);
+		InfoTextBox->Display(a1, v1, -1.0);
 		midi_music_stop();
 	}
 	else
@@ -951,7 +955,7 @@ void pb_pause_continue(int a1@<ebx > )
 				v3 = 5.0;
 				v2 = get_rc_string(23, 0);
 			}
-			TTextBox::Display(InfoTextBox, a1, v2, v3);
+			InfoTextBox->Display(a1, v2, v3);
 		}
 		if (phkResult && !single_step)
 			midi_play_pb_theme(0);
@@ -979,7 +983,7 @@ int pb_reset_table()
 }
 
 //----- (01015802) --------------------------------------------------------
-void pb_toggle_demo(int a1@<ebx > )
+void pb_toggle_demo(int a1)
 {
 	char* v1; // eax
 
@@ -988,9 +992,9 @@ void pb_toggle_demo(int a1@<ebx > )
 		dword_1025570 = 0;
 		(**(void(* **)(signed int, DWORD))MainTable)(1024, 0.0);
 		pb_mode_change(2);
-		TTextBox::Clear(MissTextBox, a1);
+		MissTextBox->Clear(a1);
 		v1 = get_rc_string(24, 0);
-		TTextBox::Display(InfoTextBox, a1, v1, -1.0);
+		InfoTextBox->Display(a1, v1, -1.0);
 	}
 	else
 	{

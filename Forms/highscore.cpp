@@ -24,7 +24,7 @@ int high_score_clear_table(int a1)
 }
 
 //----- (01004C60) --------------------------------------------------------
-signed int high_score_get_score_position(int a1, int a2)
+signed int high_score_get_score_position(long a1, int a2)
 {
     signed int result; // eax
     DWORD *v3; // ecx
@@ -44,7 +44,7 @@ signed int high_score_get_score_position(int a1, int a2)
 }
 
 //----- (01004C8D) --------------------------------------------------------
-int high_score_place_new_score_into(int a1, int a2, LPCSTR lpString, int a4)
+int high_score_place_new_score_into(int a1, int a2, const char * lpString, int a4)
 {
     char *v4; // edi
     int v5; // eax
@@ -68,7 +68,7 @@ int high_score_place_new_score_into(int a1, int a2, LPCSTR lpString, int a4)
         *(DWORD *)(v6 + 32) = a2;
         if ( lstrlenA(lpString) >= 31 )
             *((_BYTE *)lpString + 31) = 0;
-        lstrcpyA((LPSTR)v6, lpString);
+        lstrcpyA((char *)v6, lpString);
         *(_BYTE *)(v6 + 31) = 0;
     }
     return a4;
@@ -88,7 +88,7 @@ signed int high_score_read(int a1, int a2)
     CHAR *v5; // [esp+14h] [ebp-2Ch]
     signed int Val; // [esp+18h] [ebp-28h]
     int v7; // [esp+1Ch] [ebp-24h]
-    LPSTR lpString1; // [esp+20h] [ebp-20h]
+    char * lpString1; // [esp+20h] [ebp-20h]
     CHAR *lpString2; // [esp+24h] [ebp-1Ch]
     char DstBuf; // [esp+28h] [ebp-18h]
 
@@ -99,7 +99,7 @@ signed int high_score_read(int a1, int a2)
         return 1;
     v5 = (CHAR *)memoryallocate(0x12Cu);
     Val = 0;
-    lpString1 = (LPSTR)a1;
+    lpString1 = (char *)a1;
     dwDisposition = get_rc_string(166, 0);
     do
     {
@@ -129,9 +129,9 @@ signed int high_score_read(int a1, int a2)
 }
 
 //----- (01004E87) --------------------------------------------------------
-int high_score_write(LPCSTR lpString, int a2)
+int high_score_write(const char * lpString, int a2)
 {
-    LPCSTR v2; // ebx
+    const char * v2; // ebx
     int i; // eax
     HKEY phkResult; // [esp+8h] [ebp-28h]
     signed int Val; // [esp+Ch] [ebp-24h]
@@ -236,7 +236,7 @@ char *score_string_format(int a1, char *a2)
 }
 
 //----- (010050E2) --------------------------------------------------------
-void hsdlg_show_score(HWND hDlg, LPCSTR lpString, int a3, int a4)
+void hsdlg_show_score(HWND hDlg, const char * lpString, int a3, int a4)
 {
     HWND v4; // eax
     HWND v5; // eax
@@ -256,9 +256,9 @@ void hsdlg_show_score(HWND hDlg, LPCSTR lpString, int a3, int a4)
 }
 
 //----- (01005159) --------------------------------------------------------
-void show_high_scores(HWND hDlg, LPCSTR lpString)
+void show_high_scores(HWND hDlg, const char * lpString)
 {
-    LPCSTR v2; // edi
+    const char * v2; // edi
     signed int v3; // ebx
     int v4; // esi
 

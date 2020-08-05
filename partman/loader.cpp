@@ -200,7 +200,7 @@ int loader_loadfrom(WORD *a1)
 // 1028134: using guessed type int loader_sound_count;
 
 //----- (010091EB) --------------------------------------------------------
-int loader_query_handle(LPCSTR lpString)
+int loader_query_handle(const char * lpString)
 {
     return partman_record_labeled(loader_table, lpString);
 }

@@ -5,12 +5,12 @@
 #include "pinball.h"
 
 //----- (0100833A) --------------------------------------------------------
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char * lpCmdLine, int nShowCmd)
 {
 	WNDCLASSA WndClass; // [esp+14h] [ebp-13Ch]
 	INITCOMMONCONTROLSEX picce; // [esp+3Ch] [ebp-114h]
 	HINSTANCE debugThen = hInstance; // [esp+44h] [ebp-10Ch]
-	LPCSTR lpString1; // [esp+48h] [ebp-108h]
+	const char * lpString1; // [esp+48h] [ebp-108h]
 	int v44; // [esp+4Ch] [ebp-104h]
 	HINSTANCE debugFrameStart = 0; // [esp+50h] [ebp-100h]
 	char* Str = lpCmdLine; // [esp+54h] [ebp-FCh]
@@ -39,27 +39,27 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	if ((signed int)options_get_int((DWORD)get_rc_string(166, 0), "Table Version", (HKEY)1) <= 1)
 	{
 		options_set_int((HKEY)get_rc_string(166, 0), "Table Version", 1);
-		GetModuleFileNameA(hinst, (LPSTR)Point.y, 0x1F4u);
-		options_set_string((HKEY)get_rc_string(166, 0), "Table Exe", (LPCSTR)Point.y);
+		GetModuleFileNameA(hinst, (char *)Point.y, 0x1F4u);
+		options_set_string((HKEY)get_rc_string(166, 0), "Table Exe", (const char *)Point.y);
 		options_set_string((HKEY)get_rc_string(166, 0), "Table Name", get_rc_string(169, 0));
 		options_set_string(0, "Last Table Played", get_rc_string(166, 0));
 
-		lpString1 = (LPCSTR)memoryallocate(500);
+		lpString1 = (const char *)memoryallocate(500);
 		if (lpString1)
 		{
 			for (int i = 0; i < 32700; i++)
 			{
 				_sprintf((char*)& Dest, "Table%d", i);
-				options_get_string(0, (LPCSTR)& Dest, (LPSTR)Point.y, WindowName, 500);
+				options_get_string(0, (const char *)& Dest, (char *)Point.y, WindowName, 500);
 				if (!*(_BYTE*)Point.y)
 					break;
-				options_get_string(Point.y, "Table Name", (LPSTR)lpString1, WindowName, 500);
+				options_get_string(Point.y, "Table Name", (char *)lpString1, WindowName, 500);
 				if (!lstrcmpA(lpString1, get_rc_string(169, 0)))
 					goto SKIP_SET;
 				if (!*lpString1)
 					break;
 			}
-			options_set_string(0, (LPCSTR)& Dest, get_rc_string(166, 0));
+			options_set_string(0, (const char *)& Dest, get_rc_string(166, 0));
 		SKIP_SET:
 			memoryfree((int)lpString1);
 		}
@@ -69,7 +69,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	{
 		options_get_string((DWORD)get_rc_string(166, 0), "Shell Exe", Point.y, WindowName, 500);
 
-		UINT retval = WinExec((LPCSTR)Point.y, 5u);
+		UINT retval = WinExec((const char *)Point.y, 5u);
 		memoryfree(Point.y);
 
 		if (retval >= 32) {
@@ -102,7 +102,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	WndClass.cbWndExtra = 0;
 	WndClass.hInstance = hInstance;
 	WndClass.hIcon = LoadIconA(hInstance, "ICON_1");
-	WndClass.hCursor = LoadCursorA(0, (LPCSTR)0x7F00);
+	WndClass.hCursor = LoadCursorA(0, (const char *)0x7F00);
 	WndClass.hbrBackground = (HBRUSH)16;
 	WndClass.lpszMenuName = "MENU_1";
 	WndClass.lpszClassName = get_rc_string(167, 0);
@@ -309,7 +309,7 @@ LRESULT message_handler(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	struct tagRECT Rect; // [esp+8h] [ebp-64h]
 	int window_size; // [esp+18h] [ebp-54h]
-	LPSTR window_size_string; // [esp+20h] [ebp-4Ch]
+	char * window_size_string; // [esp+20h] [ebp-4Ch]
 	PAINTSTRUCT Paint; // [esp+28h] [ebp-44h]
 
 	if (Msg != iFrostUniqueMsg && Msg <= 0x1C)
@@ -346,9 +346,9 @@ LRESULT message_handler(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 					++memory_critical_allocation;
 					GetWindowRect(GetDesktopWindow(), &Rect);
 					window_size = Rect.right - Rect.left;
-					window_size_string = (LPSTR)(Rect.bottom - Rect.top);
+					window_size_string = (char *)(Rect.bottom - Rect.top);
 					pb_window_size(&window_size, &window_size_string);
-					HCURSOR window_cursor = SetCursor(LoadCursorA(0, (LPCSTR)0x7F02));
+					HCURSOR window_cursor = SetCursor(LoadCursorA(0, (const char *)0x7F02));
 					gdrv_init((int)hinst, hWnd);
 					if (!Sound_Init(hinst, (int)options_get_int(0, "Voices", (HKEY)8), 0)) {
 						options_menu_set(0xC9u, 0);
@@ -565,7 +565,7 @@ LRESULT message_handler(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			case 0x195u:
 				if (!single_step)
 					winmain_pause(wParam);
-				window_size_string = (LPSTR)memoryallocate(0x1F4u);
+				window_size_string = (char *)memoryallocate(0x1F4u);
 				if (window_size_string)
 				{
 					char* window_resize_string = (char*)memoryallocate(0x1F4u);

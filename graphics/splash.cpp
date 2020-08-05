@@ -75,7 +75,7 @@ HPALETTE splash_init_palette(LOGPALETTE *plpal)
 }
 
 //----- (01006EB9) --------------------------------------------------------
-HBITMAP load_title_bitmap(HMODULE hModule, HDC hdc, LPCSTR lpName, UINT iStart, int a5, int a6)
+HBITMAP load_title_bitmap(HMODULE hModule, HDC hdc, const char * lpName, UINT iStart, int a5, int a6)
 {
     HRSRC v6; // eax
     HGLOBAL v7; // eax
@@ -93,7 +93,7 @@ HBITMAP load_title_bitmap(HMODULE hModule, HDC hdc, LPCSTR lpName, UINT iStart, 
     HMODULE hModulea; // [esp+414h] [ebp+8h]
     HPALETTE lpNamea; // [esp+41Ch] [ebp+10h]
 
-    v6 = FindResourceA(hModule, lpName, (LPCSTR)2);
+    v6 = FindResourceA(hModule, lpName, (const char *)2);
     if ( !v6 )
         return 0;
     v7 = LoadResource(hModule, v6);
@@ -177,9 +177,9 @@ int splash_bitmap_setup(int a1)
             {
                 SelectObject(v6, h);
                 if ( GetDeviceCaps(*(HDC *)(a1 + 12), 38) & 0x100 || GetDeviceCaps(*(HDC *)(a1 + 12), 24) >= 256 )
-                    v7 = load_title_bitmap(hInstance, *(HDC *)(a1 + 12), (LPCSTR)(a1 + 32), 0xAu, 236, a1 + 4);
+                    v7 = load_title_bitmap(hInstance, *(HDC *)(a1 + 12), (const char *)(a1 + 32), 0xAu, 236, a1 + 4);
                 else
-                    v7 = LoadBitmapA(hInstance, (LPCSTR)(a1 + 232));
+                    v7 = LoadBitmapA(hInstance, (const char *)(a1 + 232));
                 *(DWORD *)(a1 + 8) = v7;
                 if ( v7 )
                 {
@@ -325,7 +325,7 @@ LRESULT splash_message_handler(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
 }
 
 //----- (01007308) --------------------------------------------------------
-int splash_screen(int a1, LPCSTR lpString2, LPCSTR a3)
+int splash_screen(int a1, const char * lpString2, const char * a3)
 {
     int v3; // esi
     HINSTANCE v4; // ST28_4
@@ -337,8 +337,8 @@ int splash_screen(int a1, LPCSTR lpString2, LPCSTR a3)
     v3 = memoryallocate(0x1B0u);
     if ( !v3 )
         return 0;
-    lstrcpyA((LPSTR)(v3 + 32), lpString2);
-    lstrcpyA((LPSTR)(v3 + 232), a3);
+    lstrcpyA((char *)(v3 + 32), lpString2);
+    lstrcpyA((char *)(v3 + 232), a3);
     if ( !hInstance )
     {
         hInstance = (HINSTANCE)a1;
@@ -348,7 +348,7 @@ int splash_screen(int a1, LPCSTR lpString2, LPCSTR a3)
         WndClass.cbWndExtra = 4;
         WndClass.hInstance = (HINSTANCE)a1;
         WndClass.hIcon = 0;
-        WndClass.hCursor = LoadCursorA(0, (LPCSTR)0x7F00);
+        WndClass.hCursor = LoadCursorA(0, (const char *)0x7F00);
         WndClass.hbrBackground = 0;
         WndClass.lpszMenuName = WindowName;
         WndClass.lpszClassName = "3DPB_SPLASH_CLASS";

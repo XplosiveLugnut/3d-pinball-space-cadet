@@ -215,7 +215,7 @@ void TTextBox::Draw(TTextBox* this, int a2)
 						*(DWORD*)((char*)v2 + 50),
 						*(DWORD*)((char*)v2 + 54));
 					grtext_draw_ttext_in_box(
-						*(LPCSTR*)(*(DWORD*)((char*)v2 + 70) + 4),
+						*(const char **)(*(DWORD*)((char*)v2 + 70) + 4),
 						xDest + *(DWORD*)((char*)v2 + 42),
 						yDest + *(DWORD*)((char*)v2 + 46),
 						*(DWORD*)((char*)v2 + 50),

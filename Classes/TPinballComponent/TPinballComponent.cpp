@@ -5,19 +5,19 @@
 #include "TPinballComponent.h"
 
 //----- (010145F5) --------------------------------------------------------
-void* TPinballComponent::operator new(size_t SizeOfElements)
-{
-	return calloc(1u, SizeOfElements);
-}
+// void* TPinballComponent::operator new(size_t SizeOfElements)
+// {
+// 	return calloc(1u, SizeOfElements);
+// }
 
 //----- (010159A9) --------------------------------------------------------
-int TPinballComponent::Message(int a2, float a3)
-{
-	*(DWORD*)((char*)this + 6) = a2;
-	if (a2 == 1024)
-		* (DWORD*)((char*)this + 6) = 0;
-	return 0;
-}
+// int TPinballComponent::Message(int a2, float a3)
+// {
+// 	*(DWORD*)((char*)this + 6) = a2;
+// 	if (a2 == 1024)
+// 		* (DWORD*)((char*)this + 6) = 0;
+// 	return 0;
+// }
 
 //----- (010159CA) --------------------------------------------------------
 int TPinballComponent::get_scoring(int a2)
@@ -26,10 +26,10 @@ int TPinballComponent::get_scoring(int a2)
 }
 
 //----- (01017C6D) --------------------------------------------------------
-TPinballComponent* TPinballComponent::TPinballComponent(TPinballTable* a2, int a3, int a4)
+TPinballComponent::TPinballComponent(TPinballTable* a2, int a3, int a4)
 {
-	TPinballComponent* this; // esi
-	struct TPinballTable* a2; // edi
+// 	TPinballComponent* this; // esi
+// 	struct TPinballTable* a2; // edi
 	TZmapList* v6; // eax
 	TZmapList* v7; // eax
 	objlist_class* v8; // ecx

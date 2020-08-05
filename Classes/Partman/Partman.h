@@ -14,7 +14,7 @@ struct Partman {
 	signed int loader_get_sound_id(int a1);
 	void loader_unload();
 	int loader_loadfrom(WORD* a1);
-	int loader_query_handle(LPCSTR lpString);
+	int loader_query_handle(const char * lpString);
 	signed int loader_query_visual_states(int a1);
 	signed int loader_material(int a1, DWORD* a2);
 	signed int loader_kicker(int a1, DWORD* a2);

@@ -1,14 +1,14 @@
 //
 // Created by neo on 2019-08-15.
 //
+#pragma once
 
-#include "../../pinball.h"
-
-#ifndef PINBALL_TPINBALLCOMPONENT_H
-#define PINBALL_TPINBALLCOMPONENT_H
+#include "pinball.h"
 
 /* 100 */
 struct TPinballComponent {
+	TPinballComponent(TPinballTable* a2, int a3, int a4);
+	~TPinballComponent();
 
 	char v19; // [esp+Ch] [ebp-6Ch]
 	void* v20; // [esp+4Ch] [ebp-2Ch]
@@ -26,13 +26,10 @@ struct TPinballComponent {
 	struct TPinballTable* v32; // [esp+80h] [ebp+8h]
 	signed int v33; // [esp+88h] [ebp+10h]
 
-	void* operator new(size_t SizeOfElements); // idb
-	int Message(int, float); // idb
-	int TPinballComponent::get_scoring(int a2);
-	TPinballComponent* TPinballComponent::TPinballComponent(TPinballTable* a2, int a3, int a4);
-	TZmapList* TPinballComponent::~TPinballComponent();
+// 	void* operator new(size_t SizeOfElements); // idb
+// 	int Message(int, float); // idb
+	int get_scoring(int a2);
 
-	void* TPinballComponent::vftable = &TPinballComponent::Message; // weak
-}
+// 	void* TPinballComponent::vftable = &TPinballComponent::Message; // weak
+};
 
-#endif //PINBALL_TPINBALLCOMPONENT_H

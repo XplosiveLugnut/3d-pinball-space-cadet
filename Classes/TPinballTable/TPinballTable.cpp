@@ -16,7 +16,7 @@ void TPinballTable::EndGame_timeout(int a1, void* a2)
 	char* v2; // esi
 	int v3; // eax
 	int v4; // edi
-	void(__thiscall * **v5)(DWORD, signed int, DWORD); // esi
+	void(**v5)(DWORD, signed int, DWORD); // esi
 	char* v6; // eax
 	char* v7; // [esp+28h] [ebp+Ch]
 
@@ -35,7 +35,7 @@ void TPinballTable::EndGame_timeout(int a1, void* a2)
 			--v7;
 		} while (v7);
 	}
-	v5 = *(void(__thiscall * ***)(DWORD, signed int, DWORD))(v2 + 230);
+	v5 = *(void(***)(DWORD, signed int, DWORD))(v2 + 230);
 	if (v5)
 		(**v5)(v5, 1022, 0.0);
 	control_handler(67, MissTextBox);

@@ -33,7 +33,7 @@ void help_introduction(int a1, int a2)
 }
 
 //----- (0101CF1A) --------------------------------------------------------
-HWND HtmlHelpA(HWND hwndCaller, LPCSTR pszFile, UINT uCommand, DWORD_PTR dwData)
+HWND HtmlHelpA(HWND hwndCaller, const char * pszFile, UINT uCommand, DWORD_PTR dwData)
 {
 HMODULE v4; // ecx
 FARPROC v5; // eax
@@ -50,11 +50,11 @@ if ( hModule || (v4 = LoadLibraryA("hhctrl.ocx"), (hModule = v4) != 0) )
 LABEL_13:
 v5 = (FARPROC)pHtmlHelpA;
 if ( pHtmlHelpA )
-return (HWND)((int (*)(HWND, LPCSTR, UINT, DWORD_PTR))v5)(hwndCaller, pszFile, uCommand, dwData);
-v5 = GetProcAddress(v4, (LPCSTR)0xE);
+return (HWND)((int (*)(HWND, const char *, UINT, DWORD_PTR))v5)(hwndCaller, pszFile, uCommand, dwData);
+v5 = GetProcAddress(v4, (const char *)0xE);
 pHtmlHelpA = (HWND (*)(HWND, const char *, unsigned int, unsigned int))v5;
 if ( v5 )
-return (HWND)((int (*)(HWND, LPCSTR, UINT, DWORD_PTR))v5)(hwndCaller, pszFile, uCommand, dwData);
+return (HWND)((int (*)(HWND, const char *, UINT, DWORD_PTR))v5)(hwndCaller, pszFile, uCommand, dwData);
 }
 dword_1025728 = 1;
 return 0;

@@ -5,7 +5,7 @@
 #include "pinball.h"
 
 //----- (010034B6) --------------------------------------------------------
-CHAR *options_path_init(LPCSTR lpString)
+CHAR *options_path_init(const char * lpString)
 {
     int v1; // eax
     CHAR *result; // eax
@@ -27,7 +27,7 @@ void options_path_uninit()
 }
 
 //----- (01003503) --------------------------------------------------------
-LPCSTR options_path(LPCSTR lpString2)
+const char * options_path(const char * lpString2)
 {
     CHAR *v1; // eax
 
@@ -57,7 +57,7 @@ void options_path_free()
 }
 
 //----- (01003588) --------------------------------------------------------
-HKEY options_get_int(DWORD cbData, LPCSTR lpValueName, HKEY phkResult)
+HKEY options_get_int(DWORD cbData, const char * lpValueName, HKEY phkResult)
 {
     HKEY result; // eax
     const CHAR *v4; // eax
@@ -68,7 +68,7 @@ HKEY options_get_int(DWORD cbData, LPCSTR lpValueName, HKEY phkResult)
     *(DWORD *)Data = phkResult;
     if ( lpString2 )
     {
-        v4 = options_path((LPCSTR)cbData);
+        v4 = options_path((const char *)cbData);
         if ( !RegCreateKeyExA(HKEY_CURRENT_USER, v4, 0, 0, 0, 0xF003Fu, 0, &phkResult, &dwDisposition) )
         {
             cbData = 4;
@@ -82,7 +82,7 @@ HKEY options_get_int(DWORD cbData, LPCSTR lpValueName, HKEY phkResult)
 }
 
 //----- (01003601) --------------------------------------------------------
-void options_get_string(DWORD dwDisposition, LPCSTR lpValueName, LPSTR lpString1, LPCSTR lpString2, int iMaxLength)
+void options_get_string(DWORD dwDisposition, const char * lpValueName, char * lpString1, const char * lpString2, int iMaxLength)
 {
     const CHAR *v5; // edi
     const CHAR *v6; // eax
@@ -91,11 +91,11 @@ void options_get_string(DWORD dwDisposition, LPCSTR lpValueName, LPSTR lpString1
     lstrcpynA(lpString1, lpString2, iMaxLength);
     if ( ::lpString2 )
     {
-        v6 = options_path((LPCSTR)dwDisposition);
+        v6 = options_path((const char *)dwDisposition);
         if ( !RegCreateKeyExA(HKEY_CURRENT_USER, v6, 0, 0, 0, 0xF003Fu, 0, (PHKEY)&iMaxLength, &dwDisposition) )
         {
             lpString2 = v5;
-            RegQueryValueExA((HKEY)iMaxLength, lpValueName, 0, 0, (LPBYTE)lpString1, (LPDWORD)&lpString2);
+            RegQueryValueExA((HKEY)iMaxLength, lpValueName, 0, 0, (BYTE *)lpString1, (LPDWORD)&lpString2);
             RegCloseKey((HKEY)iMaxLength);
         }
         options_path_free();
@@ -103,14 +103,14 @@ void options_get_string(DWORD dwDisposition, LPCSTR lpValueName, LPSTR lpString1
 }
 
 //----- (0100367C) --------------------------------------------------------
-void options_set_int(HKEY phkResult, LPCSTR lpValueName, BYTE Data)
+void options_set_int(HKEY phkResult, const char * lpValueName, BYTE Data)
 {
     const CHAR *v3; // eax
     DWORD dwDisposition; // [esp+4h] [ebp-4h]
 
     if ( lpString2 )
     {
-        v3 = options_path((LPCSTR)phkResult);
+        v3 = options_path((const char *)phkResult);
         if ( !RegCreateKeyExA(HKEY_CURRENT_USER, v3, 0, 0, 0, 0xF003Fu, 0, &phkResult, &dwDisposition) )
         {
             RegSetValueExA(phkResult, lpValueName, 0, 4u, &Data, 4u);
@@ -121,7 +121,7 @@ void options_set_int(HKEY phkResult, LPCSTR lpValueName, BYTE Data)
 }
 
 //----- (010036E3) --------------------------------------------------------
-void options_set_string(HKEY phkResult, LPCSTR lpValueName, LPCSTR lpString)
+void options_set_string(HKEY phkResult, const char * lpValueName, const char * lpString)
 {
     const CHAR *v3; // eax
     int v4; // eax
@@ -129,7 +129,7 @@ void options_set_string(HKEY phkResult, LPCSTR lpValueName, LPCSTR lpString)
 
     if ( lpString2 )
     {
-        v3 = options_path((LPCSTR)phkResult);
+        v3 = options_path((const char *)phkResult);
         if ( !RegCreateKeyExA(HKEY_CURRENT_USER, v3, 0, 0, 0, 0xF003Fu, 0, &phkResult, &dwDisposition) )
         {
             v4 = lstrlenA(lpString);
@@ -222,7 +222,7 @@ HMENU options_toggle(UINT uIDCheckItem)
 }
 
 //----- (0100580C) --------------------------------------------------------
-unsigned int get_vk_key_name(int a1, LPSTR lpString)
+unsigned int get_vk_key_name(int a1, char * lpString)
 {
     LONG v2; // eax
 

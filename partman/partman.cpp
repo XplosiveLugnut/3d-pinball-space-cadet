@@ -117,13 +117,13 @@ int partman_field_nth(int a1, int a2, int a3, int a4)
 }
 
 //----- (01006369) --------------------------------------------------------
-int partman_record_labeled(int a1, LPCSTR lpString)
+int partman_record_labeled(int a1, const char * lpString)
 {
     int v2; // esi
     int v3; // eax
     int v4; // ecx
     bool v5; // zf
-    LPCSTR v6; // edx
+    const char * v6; // edx
     int v8; // [esp+Ch] [ebp-4h]
 
     v8 = lstrlenA(lpString);
@@ -158,7 +158,7 @@ int partman_record_labeled(int a1, LPCSTR lpString)
 }
 
 //----- (010063DB) --------------------------------------------------------
-int partman_field_labeled(int a1, LPCSTR lpString, int a3)
+int partman_field_labeled(int a1, const char * lpString, int a3)
 {
     int v3; // eax
     int result; // eax
@@ -213,7 +213,7 @@ void partman_unload_records(WORD *a1)
 }
 
 //----- (010064E2) --------------------------------------------------------
-signed int *partman_load_records(LPCSTR lpFileName)
+signed int *partman_load_records(const char * lpFileName)
 {
     HFILE v1; // ebx
     signed int *v3; // edi

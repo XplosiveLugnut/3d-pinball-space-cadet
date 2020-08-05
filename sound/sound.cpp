@@ -104,7 +104,7 @@ int Sound_Init(HINSTANCE hInstance, int a2, int a3)
 // 1028208: using guessed type int num_channels;
 
 //----- (010076BF) --------------------------------------------------------
-int make_path_name(LPSTR lpFilename, LPCSTR lpString2, DWORD nSize)
+int make_path_name(char * lpFilename, const char * lpString2, DWORD nSize)
 {
 	CHAR* i; // ecx
 
@@ -151,7 +151,7 @@ HLOCAL Sound_Close()
 }
 
 //----- (01006B38) --------------------------------------------------------
-CHAR *Sound_LoadWaveFile(LPCSTR lpName)
+CHAR *Sound_LoadWaveFile(const char * lpName)
 {
     CHAR *result; // eax
 

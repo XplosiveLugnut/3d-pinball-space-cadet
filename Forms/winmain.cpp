@@ -38,7 +38,7 @@ HCURSOR winmain_new_game(int a1)
 	HCURSOR v2; // edi
 
 	winmain_end_pause(a1);
-	v1 = LoadCursorA(0, (LPCSTR)0x7F02);
+	v1 = LoadCursorA(0, (const char *)0x7F02);
 	v2 = SetCursor(v1);
 	pb_replay_level(0);
 	return SetCursor(v2);

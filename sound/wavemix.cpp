@@ -543,7 +543,7 @@ LPWAVEHDR DestroyPlayQueue()
 		if (!pwh)
 			break;
 		v0 = pwh;
-		pwh[1].lpData = (LPSTR)1;
+		pwh[1].lpData = (char *)1;
 		RemoveFromPlayingQueue(v0);
 	}
 	return result;
@@ -741,7 +741,7 @@ int MixerPlay(LPWAVEHDR pwh, int a2)
 	unsigned int v25; // [esp+4h] [ebp-1Ch]
 	unsigned int v26; // [esp+8h] [ebp-18h]
 	int v27; // [esp+Ch] [ebp-14h]
-	LPSTR v28; // [esp+10h] [ebp-10h]
+	char * v28; // [esp+10h] [ebp-10h]
 	int v29; // [esp+14h] [ebp-Ch]
 	unsigned int v30; // [esp+18h] [ebp-8h]
 	unsigned int v31; // [esp+1Ch] [ebp-4h]
@@ -779,7 +779,7 @@ int MixerPlay(LPWAVEHDR pwh, int a2)
 	if (!v31)
 	{
 		if (a2)
-			pwh[1].lpData = (LPSTR)1;
+			pwh[1].lpData = (char *)1;
 		return 0;
 	}
 	v9 = *(DWORD*)(v4 + 412);
@@ -830,7 +830,7 @@ int MixerPlay(LPWAVEHDR pwh, int a2)
 			if (v29)
 			{
 				v20 = v11 - v9;
-				(*(void (**)(LPSTR, int*, int*, int, unsigned int))(v4 + 428))(
+				(*(void (**)(char *, int*, int*, int, unsigned int))(v4 + 428))(
 					v28,
 					dword_10257A0,
 					word_1025810,
@@ -897,7 +897,7 @@ int MixerPlay(LPWAVEHDR pwh, int a2)
 		{
 			if (dword_1027BE4)
 				MessageBoxA(0, "Failed to write block to device", "WavMix32", 0x30u);
-			v2[1].lpData = (LPSTR)1;
+			v2[1].lpData = (char *)1;
 			RemoveFromPlayingQueue(v2);
 		}
 	}
@@ -984,7 +984,7 @@ int WaveMixPump()
 			if (i->dwFlags & 1)
 			{
 				RemoveFromPlayingQueue(i);
-				i[1].lpData = (LPSTR)1;
+				i[1].lpData = (char *)1;
 				goto LABEL_5;
 			}
 		}
@@ -1041,7 +1041,7 @@ signed int ResetRemix(int a1, int a2)
 			break;
 		if (!MixerPlay(v2, 0))
 		{
-			v3[1].lpData = (LPSTR)1;
+			v3[1].lpData = (char *)1;
 			break;
 		}
 		AddToPlayingQueue(v3);
@@ -1065,7 +1065,7 @@ signed int ResetRemix(int a1, int a2)
 		{
 			if (dword_1027BE4)
 				MessageBoxA(0, "Failed to write block to device", "WavMix32", 0x30u);
-			i[1].lpData = (LPSTR)1;
+			i[1].lpData = (char *)1;
 			RemoveFromPlayingQueue(i);
 		}
 		v5 = hMem;
@@ -2080,7 +2080,7 @@ LPCVOID WaveFormatConvert(int a1, int a2, LPCVOID pMem, int a4)
 }
 
 //----- (0101EB23) --------------------------------------------------------
-CHAR* WaveMixOpenWave(LPCVOID pMem, LPCSTR lpName, HMODULE hModule, LONG cch)
+CHAR* WaveMixOpenWave(LPCVOID pMem, const char * lpName, HMODULE hModule, LONG cch)
 {
 	WORD* v4; // eax
 	WORD v5; // cx
@@ -2213,7 +2213,7 @@ CHAR* WaveMixOpenWave(LPCVOID pMem, LPCSTR lpName, HMODULE hModule, LONG cch)
 	}
 	else
 	{
-		hModulea = mmioOpenA((LPSTR)lpName, 0, 0x10000u);
+		hModulea = mmioOpenA((char *)lpName, 0, 0x10000u);
 		if (!hModulea)
 		{
 			if (dword_1027BE4)
@@ -2338,7 +2338,7 @@ unsigned int FigureOutDMABufferSize(unsigned int a1, int a2)
 }
 
 //----- (0101F0D4) --------------------------------------------------------
-int RemoveInvalidIniNameCharacters(LPCSTR lpString)
+int RemoveInvalidIniNameCharacters(const char * lpString)
 {
 	CHAR* v1; // esi
 
@@ -2406,7 +2406,7 @@ const char* GetOperatingSystemPrefix()
 }
 
 //----- (0101F25C) --------------------------------------------------------
-int ReadRegistryToGetMachineSpecificInfSection(int a1, LPSTR lpString1, int a3)
+int ReadRegistryToGetMachineSpecificInfSection(int a1, char * lpString1, int a3)
 {
 	const char* v3; // eax
 	int v4; // esi
@@ -2434,7 +2434,7 @@ int ReadRegistryToGetMachineSpecificInfSection(int a1, LPSTR lpString1, int a3)
 }
 
 //----- (0101F315) --------------------------------------------------------
-int ReadRegistryInt(HKEY hKey, LPCSTR lpSubKey, int a3)
+int ReadRegistryInt(HKEY hKey, const char * lpSubKey, int a3)
 {
 	int result; // eax
 	LONG cbData; // [esp+0h] [ebp-14h]
@@ -2924,37 +2924,37 @@ BOOL SaveConfigSettings(int a1)
 	if (a1 & 1)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(unsigned int*)(hMem + 382));
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "Channels", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "Channels", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 2)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", (unsigned int)(11 * (*(DWORD*)(hMem + 384) / 0x2B11u)));
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "SamplesPerSec", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "SamplesPerSec", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 4)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(DWORD*)(hMem + 400));
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "WaveBlocks", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "WaveBlocks", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 8)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(unsigned int*)(hMem + 396));
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "WaveBlockLen", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "WaveBlockLen", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 0x10)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(DWORD*)(hMem + 428) == (DWORD)cmixit);
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "CMixit", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "CMixit", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 0x20)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", (*(DWORD*)(hMem + 432) != (DWORD)ResetRemix) + 1);
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "Remix", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "Remix", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 0x40)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(DWORD*)(hMem + 420) == 0);
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "GoodWavePos", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "GoodWavePos", aWavemixV23ByAn, FileName);
 	}
 	if (a1 & 0x100)
 	{
@@ -2964,7 +2964,7 @@ BOOL SaveConfigSettings(int a1)
 	if (a1 & 0x200)
 	{
 		_wsprintfA(aWavemixV23ByAn, "%d", *(DWORD*)(hMem + 404));
-		result = WritePrivateProfileStringA((LPCSTR)(hMem + 28), "PauseBlocks", aWavemixV23ByAn, FileName);
+		result = WritePrivateProfileStringA((const char *)(hMem + 28), "PauseBlocks", aWavemixV23ByAn, FileName);
 	}
 	return result;
 }
@@ -3032,7 +3032,7 @@ int WaveMixStartup(HMODULE hModule)
 	dword_1027BE8 = GetPrivateProfileIntA("general", "debug", 0, FileName);
 	dword_1025968 = (int)cmixit;
 	dword_10257E0 = hModule;
-	WndClass.hCursor = LoadCursorA(0, (LPCSTR)0x7F00);
+	WndClass.hCursor = LoadCursorA(0, (const char *)0x7F00);
 	WndClass.hIcon = 0;
 	WndClass.lpszMenuName = 0;
 	WndClass.lpszClassName = "WavMix32";
@@ -3214,14 +3214,14 @@ MMRESULT WaveMixConfigure(int a1, HWND hWndParent, int a3, int a4, int a5)
 				*(WORD*)(v14 + 392) = 1;
 				*(DWORD*)(v14 + 388) = v16;
 			}
-			lstrcpyA((LPSTR)(v14 + 28), pwoc.szPname);
-			if (!RemoveInvalidIniNameCharacters((LPCSTR)(hMem + 28)))
-				lstrcpyA((LPSTR)(hMem + 28), "Unkown Device");
-			if (!ReadRegistryToGetMachineSpecificInfSection(*(DWORD*)(hMem + 24), (LPSTR)(hMem + 28), 96))
+			lstrcpyA((char *)(v14 + 28), pwoc.szPname);
+			if (!RemoveInvalidIniNameCharacters((const char *)(hMem + 28)))
+				lstrcpyA((char *)(hMem + 28), "Unkown Device");
+			if (!ReadRegistryToGetMachineSpecificInfSection(*(DWORD*)(hMem + 24), (char *)(hMem + 28), 96))
 			{
 				v17 = GetOperatingSystemPrefix();
-				lstrcpyA((LPSTR)(hMem + 28), v17);
-				lstrcatA((LPSTR)(hMem + 28), (LPCSTR)(hMem + 132));
+				lstrcpyA((char *)(hMem + 28), v17);
+				lstrcatA((char *)(hMem + 28), (const char *)(hMem + 132));
 			}
 			v11 = (WORD*)hMem;
 			v12 = v42;
@@ -3410,15 +3410,15 @@ signed int ReadConfigSettings(int a1)
 	if (*v3 >= nDefault)
 		* v3 = 0;
 	if (waveOutGetDevCapsA(*v3, (LPWAVEOUTCAPSA)(hMem + 124), 0x34u)
-		|| !RemoveInvalidIniNameCharacters((LPCSTR)(hMem + 132)))
+		|| !RemoveInvalidIniNameCharacters((const char *)(hMem + 132)))
 	{
-		lstrcpyA((LPSTR)(hMem + 132), "Unkown Device");
+		lstrcpyA((char *)(hMem + 132), "Unkown Device");
 	}
-	if (!ReadRegistryToGetMachineSpecificInfSection(*(DWORD*)(hMem + 24), (LPSTR)(hMem + 28), 96))
+	if (!ReadRegistryToGetMachineSpecificInfSection(*(DWORD*)(hMem + 24), (char *)(hMem + 28), 96))
 	{
 		v4 = GetOperatingSystemPrefix();
-		lstrcpyA((LPSTR)(hMem + 28), v4);
-		lstrcatA((LPSTR)(hMem + 28), (LPCSTR)(hMem + 132));
+		lstrcpyA((char *)(hMem + 28), v4);
+		lstrcatA((char *)(hMem + 28), (const char *)(hMem + 132));
 	}
 	nDefaulta = GetPrivateProfileIntA("default", "Remix", 1, FileName);
 	v5 = DefaultGoodWavePos(*(DWORD*)(hMem + 24));
@@ -3436,7 +3436,7 @@ signed int ReadConfigSettings(int a1)
 		MessageBoxA(0, aWavemixV23ByAn, "WavMix32", 0x40u);
 		return 0;
 	}
-	if (GetPrivateProfileIntA("not compatible", (LPCSTR)(hMem + 28), 0, FileName))
+	if (GetPrivateProfileIntA("not compatible", (const char *)(hMem + 28), 0, FileName))
 	{
 		if (!dword_1027BE4)
 			return 0;
@@ -3444,23 +3444,23 @@ signed int ReadConfigSettings(int a1)
 		v24 = "%s is not compatible with the realtime wavemixer.";
 		goto LABEL_19;
 	}
-	v6 = GetPrivateProfileIntA((LPCSTR)(hMem + 28), "Remix", nDefaulta, FileName);
+	v6 = GetPrivateProfileIntA((const char *)(hMem + 28), "Remix", nDefaulta, FileName);
 	v7 = NoResetRemix;
 	if (v6 != 2)
 		v7 = ResetRemix;
 	v8 = hMem;
 	*(DWORD*)(hMem + 432) = v7;
-	v9 = GetPrivateProfileIntA((LPCSTR)(v8 + 28), "GoodWavePos", v28, FileName);
+	v9 = GetPrivateProfileIntA((const char *)(v8 + 28), "GoodWavePos", v28, FileName);
 	v10 = hMem;
 	*(DWORD*)(hMem + 420) = v9 != 0;
-	v11 = GetPrivateProfileIntA((LPCSTR)(v10 + 28), "WaveBlocks", v27, FileName);
+	v11 = GetPrivateProfileIntA((const char *)(v10 + 28), "WaveBlocks", v27, FileName);
 	v12 = hMem;
 	v13 = 2;
 	*(DWORD*)(hMem + 400) = v11;
 	if (v11 < 2 || (v13 = 10, v11 > 10))
 		* (DWORD*)(v12 + 400) = v13;
 	v14 = DefaultPauseBlocks(*(DWORD*)(v12 + 400));
-	v15 = GetPrivateProfileIntA((LPCSTR)(hMem + 28), "PauseBlocks", v14, FileName);
+	v15 = GetPrivateProfileIntA((const char *)(hMem + 28), "PauseBlocks", v14, FileName);
 	v16 = hMem;
 	*(DWORD*)(hMem + 404) = v15;
 	if (v15 >= 0)
@@ -3473,8 +3473,8 @@ signed int ReadConfigSettings(int a1)
 	{
 		*(DWORD*)(v16 + 404) = 0;
 	}
-	nDefaultb = GetPrivateProfileIntA((LPCSTR)(v16 + 28), "SamplesPerSec", v26, FileName);
-	v18 = GetPrivateProfileIntA((LPCSTR)(hMem + 28), "Channels", 1, FileName);
+	nDefaultb = GetPrivateProfileIntA((const char *)(v16 + 28), "SamplesPerSec", v26, FileName);
+	v18 = GetPrivateProfileIntA((const char *)(hMem + 28), "Channels", 1, FileName);
 	v19 = hMem;
 	*(WORD*)(hMem + 382) = v18;
 	if (v18 >= 1u)

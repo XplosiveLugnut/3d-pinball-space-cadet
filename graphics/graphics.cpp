@@ -5,7 +5,7 @@
 #include "../pinball.h"
 
 //----- (01003803) --------------------------------------------------------
-int grtext_draw_ttext_in_box(LPCSTR lpString, int mode, int a3, COLORREF color, int a5, int a6)
+int grtext_draw_ttext_in_box(const char * lpString, int mode, int a3, COLORREF color, int a5, int a6)
 {
     HDC v6; // ebx
     CHAR *v7; // eax
